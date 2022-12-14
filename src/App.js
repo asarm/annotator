@@ -64,38 +64,39 @@ function App() {
 
   
   // different colors for different answers
-  const colors = ["#ffc107", "#17a2b8", "#28a745", "#dc3545", "#6c757d"];
+  const colors = ["#ffc107", "#17a2b8", "#28a745", "#dc3545", "#6c757d", "#60329F", "#71FF1E", "#EAFF1E"];
   
   // highlight the answers in the context
-  const colorizeAnswers = (text) => {
+  const colorizeAnswers = (jsonData) => {
     const answers = jsonData[currentIndex].qas.map((q) => q.answer);
   
     // map the answers to the corresponding highlighted answers
     const highlightedAnswers = answers.map((answer, index) => {
       // start and end index of the answer
-      const startIndex = text.indexOf(answer);
+      const startIndex = jsonData[currentIndex].context.indexOf(answer);
       const endIndex = startIndex + answer.length;
-  
+      
+
       // Update start and end indices
       jsonData[currentIndex].qas[index].answer_start = startIndex;
       jsonData[currentIndex].qas[index].answer_end = endIndex;
-  
       return (
         <Highlighter
           highlightClassName="highlight"
           searchWords={[answer]}
           autoEscape={true}
-          textToHighlight={text}
+          textToHighlight={jsonData[currentIndex].context}
           highlightStyle={{ backgroundColor: colors[index % colors.length] }}
         />
       );
+        
     });
-  
+
+ 
     return highlightedAnswers; // TODO: do not return additional contexts
   };
   
   
-
   
   return (
     <div>
@@ -104,27 +105,31 @@ function App() {
       <p>Upload the data in JSON format</p>
       <input type="file" onChange={handleFileSelect} />
       <button onClick={handleDownloadData}>Download Data</button>
-    
+
       {jsonData &&  (
         <div style={{margin: 100}}>
           
           <span>{jsonData[currentIndex].title}</span>
           <p>{jsonData[currentIndex].context}</p>
-          <p>{colorizeAnswers(jsonData[currentIndex].context)}</p>
+          <p>{colorizeAnswers(jsonData)}</p>
           <ul>
             {
-            jsonData[currentIndex].qas.map(text => (
+            jsonData[currentIndex].qas.map((text, index) => (
               <li>
-                <p>Question: {text.question} 
-                <button onClick={() => changeQuestion(text.id)}
+                <p>
+                  Question: {text.question} 
+                  <button onClick={() => changeQuestion(text.id)}
                 
-                style={{ marginLeft: "15px" }}
-                >Edit</button> </p>
+                  style={{ marginLeft: "15px" }}
+                  >Edit</button> 
+                </p>
                 
-                <p>Answer: {text.answer} 
-                <button onClick={() => handleAnswerEdit(text.id)}
-                style={{ marginLeft: "15px" }}
-                >Edit</button></p> 
+                <p>
+                  Answer: <span style={{ backgroundColor: colors[index] }}>{text.answer}</span>
+                  <button onClick={() => handleAnswerEdit(text.id)}
+                  style={{ marginLeft: "15px" }}
+                  >Edit</button>
+                </p> 
               
               </li>
             ))
