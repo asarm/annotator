@@ -54,11 +54,21 @@ function App() {
   };
 
   // allows user to edit the answer
-  const handleAnswerEdit = (id) => {
-    const a_input = prompt('Enter the answer');
+  // id: text id to be edited, signal: edit type ( 1=> from prompt, 0 => by using mouse)
+  const handleAnswerEdit = (id, signal) => {
+    let a_input;
+    
+    if (signal == 1) {
+      a_input = prompt('Enter the answer')
+    }else {
+      a_input = window.getSelection().toString()
+    }
+
     const newJsonData = [...jsonData];
     const text = newJsonData[currentIndex].qas.find(text => text.id === id); // find the corresponding text by id
+ 
     text.answer = a_input; // update the answer
+    
     setJsonData(newJsonData);
   };
 
@@ -67,7 +77,7 @@ function App() {
   const colors = ["#ffc107", "#17a2b8", "#28a745", "#dc3545", "#6c757d", "#60329F", "#71FF1E", "#EAFF1E"];
   
   // highlight the answers in the context
-  const colorizeAnswers = (jsonData) => {
+  const colorizeAnswers = (jsonData, questionId) => {
     const answers = jsonData[currentIndex].qas.map((q) => q.answer);
   
     // map the answers to the corresponding highlighted answers
@@ -76,6 +86,7 @@ function App() {
       const startIndex = jsonData[currentIndex].context.indexOf(answer);
       const endIndex = startIndex + answer.length;
       
+      console.log(questionId);
 
       // Update start and end indices
       jsonData[currentIndex].qas[index].answer_start = startIndex;
@@ -111,14 +122,14 @@ function App() {
           
           <span>{jsonData[currentIndex].title}</span>
           <p>{jsonData[currentIndex].context}</p>
-          <p>{colorizeAnswers(jsonData)}</p>
+          <p>{colorizeAnswers(jsonData, jsonData[currentIndex].qas.map((answ) => answ.id))}</p>
           <ul>
             {
             jsonData[currentIndex].qas.map((text, index) => (
               <li>
                 <p>
                   Question: {text.question} 
-                  <button onClick={() => changeQuestion(text.id)}
+                  <button onClick={() => changeQuestion(text.id, 1)}
                 
                   style={{ marginLeft: "15px" }}
                   >Edit</button> 
@@ -128,7 +139,9 @@ function App() {
                   Answer: <span style={{ backgroundColor: colors[index] }}>{text.answer}</span>
                   <button onClick={() => handleAnswerEdit(text.id)}
                   style={{ marginLeft: "15px" }}
-                  >Edit</button>
+                  >Edit {text.id}</button>
+                  <button onClick = {() => handleAnswerEdit(text.id, 0)}>Edit by select</button>
+
                 </p> 
               
               </li>
@@ -148,4 +161,3 @@ function App() {
 
 
 export default App;
-
