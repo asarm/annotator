@@ -64,7 +64,7 @@
       },
       {
         "title": "Title 2",
-        "context":"A question-answering task is a type of natural language processing task that involves automatically answering questions posed in a given language.",
+        "context":"Sometimes a word or phrase is not immediately clarified within the same sentence. Relationships, which are not directly apparent, are inferred or implied. The reader must look for clues within, before, and after the sentence in which the word is used.",
         "qas": [
           {
             "question": "What is the question 1?",
