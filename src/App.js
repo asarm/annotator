@@ -10,6 +10,19 @@ import Box from '@mui/material/Box';
 import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';
 import TextField from '@mui/material/TextField';
 import MouseIcon from '@mui/icons-material/Mouse';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+import Drawer from 'react-modern-drawer'
+import 'react-modern-drawer/dist/index.css'
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
+import SaveAsIcon from '@mui/icons-material/SaveAs';
+
 
 function App() {
   const [jsonData, setJsonData] = useState(null);
@@ -20,8 +33,13 @@ function App() {
   const [newAnswer, setNewAnswer] = useState('');
   const [newTitle, setNewTitle] = useState('');
   const [newContext, setNewContext] = useState('');
+  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = React.useState(false)
   
-  
+
+  const toggleDrawer = () => {
+    setIsOpen((prevState) => !prevState)
+}
 
 
   // create a variable that allows user to upload a JSON file and targets the object "data"
@@ -90,7 +108,11 @@ function App() {
 
   
   // different colors for different answers
-  const colors = ["#ffc107", "#17a2b8", "#28a745", "#dc3545", "#6c757d", "#60329F", "#71FF1E", "#EAFF1E"];
+  var colors = [ "#ffb399", "#ffcc99", "#ffe699", "#ffff99",
+   "#e6ff99", "#28a745", "#EAFF1E","#ff9999", "#cc99ff", "#cff99e6", "#99ffff",
+   "#99b3ff"];
+  
+   
   
   // update the indices of the answers
   const setIndices = (jsonData) => {
@@ -233,11 +255,13 @@ function App() {
   };
   
 
-
+  const drawerItems = [];
   return (
     <div style={{marginTop: 20, marginLeft:30, marginRight:30}}>
       <h1 align="middle">QA Annotation Tool</h1>
       <p>Upload the data in JSON format</p>
+             
+     
 
       <Button variant="contained" component="label" size="small" style={{marginRight:10}}>
         Upload File
@@ -247,16 +271,34 @@ function App() {
       {jsonData ? (
         <Button
           size="small"
-          variant="outlined"
+          variant="contained"
+          color="secondary"
           onClick={() => handleAddData()}
-          style={{ marginLeft: "275px" }}
+          style={{ marginLeft: "30%" }}
         >Add Data</Button>
       ) : null}
       
       <div style={{margin: 10}}></div>
       
       {jsonData &&  (                
-        <div>                                    
+        <div>  
+
+<>
+            
+            <Drawer open={isOpen} onClose={toggleDrawer} direction="bottom">
+              {
+                jsonData.forEach((data) => {
+                  drawerItems.push(<Button variant="outlined" sx={{marginRight: "9px", marginLeft: "9px", marginTop: "9px"} } onClick = {() => setCurrentIndex(jsonData.indexOf(data))} >
+                    {data.title}
+                    </Button>)
+                }
+                )
+                }
+                
+                <div>{drawerItems}</div>
+            </Drawer>
+        </>
+                                          
           <Grid container spacing={2}>                             
               <Grid item xs={6}>                
                 <h2 align="middle">{jsonData[currentIndex].title}</h2>
@@ -279,17 +321,17 @@ function App() {
                 <li>
                   <p>
                   <Grid container spacing={0} sx={{marginTop:0}}>                    
-                    <Grid item xs={8}>
-                      Question: {text.question} 
+                    <Grid  item xs={8}>
+                       <b>{text.question}</b>
                     </Grid>
                     <Grid item xs={2}>
-                      <Button size="small" variant="outlined" onClick={() => changeQuestion(text.id, 1)}
+                      <IconButton size="small" variant="outlined" onClick={() => changeQuestion(text.id, 1)}
                       style={{ marginLeft: "15px" }}
-                      >Edit</Button>                       
+                      ><QuestionAnswerIcon></QuestionAnswerIcon></IconButton>                       
                     </Grid>                         
 
                     <Grid item xs={2}>
-                      <IconButton aria-label="delete" color="error"  onClick={() => handleDelete(index)}>
+                      <IconButton size="small" aria-label="delete" color="error"  onClick={() => handleDelete(index)}>
                         <DeleteIcon />
                       </IconButton>
                     </Grid>
@@ -301,12 +343,13 @@ function App() {
                       Answer: <span c style={{ backgroundColor: colors[index] }}>{text.answer}</span>
                     </Grid>
                     <Grid item xs={2}>
-                      <Button size="small" variant="outlined" onClick={() => handleAnswerEdit(text.id, 1)}
+                      <IconButton color="secondary" size="small" variant="outlined" onClick={() => handleAnswerEdit(text.id, 1)}
                       style={{ marginLeft: "15px" }}
-                      >Edit</Button>
+                      ><SaveAsIcon></SaveAsIcon></IconButton>
                     </Grid>
                     <Grid item xs={2}>
-                      <IconButton 
+                      <IconButton
+                      size="small" 
                       onClick = {() => handleAnswerEdit(text.id, 0)}
                       aria-label="delete" color="info">
                         <MouseIcon />
@@ -337,14 +380,15 @@ function App() {
           <LinearProgress variant="determinate" value={((currentIndex + 1)/jsonData.length) * 100} sx={{ boxShadow: 1, marginTop:3}}/>  
 
           <Grid container spacing={0} sx={{marginTop:5}}>
-          <Grid item xs={4}></Grid>
+          <Grid item xs={3.5}></Grid>
           <Grid item xs={2}>
             <Button size="small" variant='outlined' onClick={handlePrevClick}>Previous</Button>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2}><Button color='error' variant='contained'  onClick={toggleDrawer}>Jump To</Button></Grid>
+          
+          <Grid item xs={3}>
           <Button size="small" variant='outlined' onClick={handleNextClick}>Next</Button>
           </Grid>
-          <Grid item xs={4}></Grid>
           </Grid>
         </div>
       )}
