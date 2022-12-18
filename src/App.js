@@ -75,6 +75,8 @@ function App() {
       a_input = window.getSelection().toString()
     }
 
+    console.log(a_input);
+
     const newJsonData = [...jsonData];
     const text = newJsonData[currentIndex].qas.find(text => text.id === id); // find the corresponding text by id
  
@@ -91,22 +93,19 @@ function App() {
   const setIndices = (jsonData) => {
     const answers = jsonData[currentIndex].qas.map((q) => q.answer);
   
+    
     const searchWords = answers.map((answer, index) => {
       // start and end index of the answer
       const startIndex = jsonData[currentIndex].context.indexOf(answer);
-      if (startIndex === -1) {
-        // Set start and end indices to -1 if the answer is not found in the context
-        jsonData[currentIndex].qas[index].answer_start = -1;
-        jsonData[currentIndex].qas[index].answer_end = -1;
-      } else {
-        const endIndex = startIndex + answer.length - 1;
+      const endIndex = startIndex + answer.length;
+
+      console.log("s: " + startIndex);
   
-        // Update start and end indices
-        jsonData[currentIndex].qas[index].answer_start = startIndex;
-        jsonData[currentIndex].qas[index].answer_end = endIndex;
-      }
+      // Update start and end indices
+      jsonData[currentIndex].qas[index].answer_start = startIndex;
+      jsonData[currentIndex].qas[index].answer_end = endIndex;
     });
-  
+
   };
   // highlight the answers in the context using the indices
   const highlightAnswers = (jsonData) => {
@@ -220,7 +219,7 @@ function App() {
                   <p>
                   <Grid container spacing={0} sx={{marginTop:0}}>
                     <Grid item xs={8}>
-                      Answer: <span c style={{ backgroundColor: colors[index] }}>{text.answer}</span>
+                      Answer: <span c>{text.answer}</span>
                     </Grid>
                     <Grid item xs={2}>
                       <Button size="small" variant="outlined" onClick={() => handleAnswerEdit(text.id, 1)}
@@ -254,9 +253,8 @@ function App() {
             </Grid>                        
           </Grid>                    
             
-          {currentIndex}
-          {articleCount}
-          <LinearProgress variant="determinate" value={(articleCount/currentIndex)*100} sx={{ boxShadow: 1, marginTop:3}}/>    
+          {currentIndex + 1 + "/" + jsonData.length}
+          <LinearProgress variant="determinate" value={((currentIndex + 1)/jsonData.length) * 100} sx={{ boxShadow: 1, marginTop:3}}/>    
 
           <Grid container spacing={0} sx={{marginTop:5}}>
           <Grid item xs={4}></Grid>
