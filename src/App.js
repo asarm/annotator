@@ -99,7 +99,7 @@ function App() {
     const searchWords = answers.map((answer, index) => {
       // Find all instances of the answer in the context
       const escapedAnswer = answer.split(' ').map((word) => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join(' ');
-      const regex = new RegExp(`\\b${escapedAnswer}\\b`, 'g');
+      const regex = new RegExp(`(\b|\(|\-)${escapedAnswer}(\b|\)|\-)`, 'g');
       const matches = [...jsonData[currentIndex].context.matchAll(regex)];
       console.log(matches)
       // If no matches are found, set the start and end indices to -1
