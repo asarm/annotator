@@ -2,16 +2,21 @@ import React, { useState, useRef } from 'react';
 import { useEffect } from 'react';
 import { saveAs} from 'save-as';
 import Highlighter from "react-highlight-words";
-
-
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Box from '@mui/material/Box';
+import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';
+import TextField from '@mui/material/TextField';
 
 function App() {
   const [jsonData, setJsonData] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [articleCount, setArticleCount] = useState(0);
   const [currentQ, setCurrentQ] = useState(0);
   const [newQuestion, setNewQuestion] = useState('');
   const [newAnswer, setNewAnswer] = useState('');
-
 
 
   // create a variable that allows user to upload a JSON file and targets the object "data"
@@ -26,7 +31,7 @@ function App() {
       };
 
       reader.readAsText(file);
-    }
+    }    
   };
 
    // download the updated data in JSON format
@@ -162,60 +167,102 @@ function App() {
 
 
   return (
-    <div>
-    
+    <div style={{marginTop: 20, marginLeft:30, marginRight:30}}>
       <h1>QA Annotation Tool</h1>
       <p>Upload the data in JSON format</p>
-      <input type="file" onChange={handleFileSelect} />
-      <button onClick={handleDownloadData}>Download Data</button>
-      <div style={{margin: 20}}></div>
-      <form onSubmit={handleAddQuestion}>
-      <label>
-        Question:
-        <input type="text" value={newQuestion} onChange={e => setNewQuestion(e.target.value)} />
-      </label>
-      <label>
-        Answer:
-        <input type="text" value={newAnswer} onChange={e => setNewAnswer(e.target.value)} />
-      </label>
-      <input type="submit" value="Add question" />
-    </form>
-      {jsonData &&  (
-        <div style={{margin: 75}}>
-          
-          <span>{jsonData[currentIndex].title}</span>
-          
-          
-          <p>{highlightAnswers(jsonData)}</p>
-          <ul>
-            {
-            jsonData[currentIndex].qas.map((text, index) => (
-              <li>
-                <p>
-                  { console.log(index)}
-                  Question: {text.question} 
-                  <button onClick={() => changeQuestion(text.id, 1)}
-                  style={{ marginLeft: "15px" }}
-                  >Edit</button> 
-                  <button onClick={() => handleDelete(index)}>Delete</button>
-                </p>
-                
-                <p>
-                  Answer: <span style={{ backgroundColor: colors[index] }}>{text.answer}</span>
-                  <button onClick={() => handleAnswerEdit(text.id, 1)}
-                  style={{ marginLeft: "15px" }}
-                  >Edit {text.id}</button>
-                  <button onClick = {() => handleAnswerEdit(text.id, 0)}>Edit by select</button>
 
-                </p> 
-              
-              </li>
-            ))
-            }
-          </ul>
-          <button onClick={handlePrevClick}>Previous</button>          
-          <button onClick={handleNextClick}>Next</button>
+      <Button variant="contained" component="label" size="small" style={{marginRight:10}}>
+        Upload File
+        <input hidden accept="" multiple type="file" onChange={handleFileSelect} />
+      </Button>      
+      <Button onClick={handleDownloadData} size="small" variant="outlined">Download Data</Button>
+      <div style={{margin: 10}}></div>
+      
+      {jsonData &&  (                
+        <div>                                    
+          <Grid container spacing={2}>                             
+              <Grid item xs={6}>                
+                <h3>{jsonData[currentIndex].title}</h3>
+                <Box sx={{ boxShadow: 3, minHeight:200, padding:2}}>                
+                  <p>{highlightAnswers(jsonData)}</p>
+                </Box>
+              </Grid>            
+            <Grid item xs={6}>
+              <Box sx={{ boxShadow: 3, minHeight:400, padding:2, marginTop:7}}>                
+              <ul>
+              {
+              jsonData[currentIndex].qas.map((text, index) => (          
+                <div>                             
+                <li>
+                  <p>
+                  <Grid container spacing={0} sx={{marginTop:0}}>                    
+                    <Grid item xs={8}>
+                      Question: {text.question} 
+                    </Grid>
+                    <Grid item xs={2}>
+                      <Button size="small" variant="outlined" onClick={() => changeQuestion(text.id, 1)}
+                      style={{ marginLeft: "15px" }}
+                      >Edit</Button>                       
+                    </Grid>                         
+
+                    <Grid item xs={2}>
+                      <IconButton aria-label="delete" color="error"  onClick={() => handleDelete(index)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </Grid>
+                  </Grid>
+                  </p>                                    
+                  <p>
+                  <Grid container spacing={0} sx={{marginTop:0}}>
+                    <Grid item xs={8}>
+                      Answer: <span c>{text.answer}</span>
+                    </Grid>
+                    <Grid item xs={2}>
+                      <Button size="small" variant="outlined" onClick={() => handleAnswerEdit(text.id, 1)}
+                      style={{ marginLeft: "15px" }}
+                      >Edit</Button>
+                    </Grid>
+                    <Grid item xs={2}>
+                      <IconButton 
+                      onClick = {() => handleAnswerEdit(text.id, 0)}
+                      aria-label="delete" color="error">
+                        <DeleteIcon />
+                      </IconButton>   
+                    </Grid>                        
+                    </Grid>            
+                  </p>               
+                </li>                                               
+                </div>                      
+              ))
+              }                
+                <form onSubmit={handleAddQuestion}>
+                  <label>
+                    <TextField id="standard-basic" label="Question" variant="standard"  value={newQuestion} onChange={e => setNewQuestion(e.target.value)} />
+                  </label>
+                  <label style={{ marginLeft: 20 }}>
+                    <TextField id="standard-basic" label="Answer" variant="standard"  value={newAnswer} onChange={e => setNewAnswer(e.target.value)} />                    
+                  </label>
+                  <Button type="submit" value="Add question" variant="outlined" sx={{marginTop:1, marginLeft:1}}>Add Question</Button>
+                </form>
+              </ul>              
+              </Box>              
+            </Grid>                        
+          </Grid>                    
             
+          {currentIndex}
+          {articleCount}
+          <LinearProgress variant="determinate" value={(articleCount/currentIndex)*100} sx={{ boxShadow: 1, marginTop:3}}/>    
+
+          <Grid container spacing={0} sx={{marginTop:5}}>
+          <Grid item xs={4}></Grid>
+          <Grid item xs={2}>
+            <Button size="small" variant='outlined' onClick={handlePrevClick}>Previous</Button>
+          </Grid>
+          <Grid item xs={2}>
+          <Button size="small" variant='outlined' onClick={handleNextClick}>Next</Button>
+          </Grid>
+          <Grid item xs={4}></Grid>
+          </Grid>
         </div>
       )}
     </div>
