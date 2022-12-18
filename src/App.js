@@ -9,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
 import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';
 import TextField from '@mui/material/TextField';
+import MouseIcon from '@mui/icons-material/Mouse';
 
 function App() {
   const [jsonData, setJsonData] = useState(null);
@@ -17,6 +18,8 @@ function App() {
   const [currentQ, setCurrentQ] = useState(0);
   const [newQuestion, setNewQuestion] = useState('');
   const [newAnswer, setNewAnswer] = useState('');
+  const [newTitle, setNewTitle] = useState('');
+  const [newContext, setNewContext] = useState('');
 
 
   // create a variable that allows user to upload a JSON file and targets the object "data"
@@ -170,6 +173,33 @@ function App() {
     setNewAnswer(''); // reset form
   };
 
+  const addData = (jsonData, newTitle, newContext) => {
+    // create a new object to be added to the array
+    const newData = {
+      title: newTitle,
+      context: newContext,
+      qas: []
+    };
+    
+    let title;
+    let context;
+
+    title = prompt('Enter the title')
+    context = prompt('Enter the context')
+
+    newData.title = title
+    newData.context = context
+  
+    // add new data to the array
+    jsonData.push(newData);
+  }
+
+  const handleAddData = () => {
+    addData(jsonData, newTitle, newContext);
+    setJsonData([...jsonData]); // update the jsonData
+  }
+
+
 
   return (
     <div style={{marginTop: 20, marginLeft:30, marginRight:30}}>
@@ -181,6 +211,15 @@ function App() {
         <input hidden accept="" multiple type="file" onChange={handleFileSelect} />
       </Button>      
       <Button onClick={handleDownloadData} size="small" variant="outlined">Download Data</Button>
+      {jsonData ? (
+        <Button
+          size="small"
+          variant="outlined"
+          onClick={() => handleAddData()}
+          style={{ marginLeft: "485px" }}
+        >Add Data</Button>
+      ) : null}
+      
       <div style={{margin: 10}}></div>
       
       {jsonData &&  (                
@@ -188,12 +227,15 @@ function App() {
           <Grid container spacing={2}>                             
               <Grid item xs={6}>                
                 <h3>{jsonData[currentIndex].title}</h3>
+                
                 <Box sx={{ boxShadow: 3, minHeight:200, padding:2}}>                
                   <p>{highlightAnswers(jsonData)}</p>
                 </Box>
               </Grid>            
             <Grid item xs={6}>
               <Box sx={{ boxShadow: 3, minHeight:400, padding:2, marginTop:7}}>                
+              
+              
               <ul>
               {
               jsonData[currentIndex].qas.map((text, index) => (          
@@ -230,8 +272,8 @@ function App() {
                     <Grid item xs={2}>
                       <IconButton 
                       onClick = {() => handleAnswerEdit(text.id, 0)}
-                      aria-label="delete" color="error">
-                        <DeleteIcon />
+                      aria-label="delete" color="info">
+                        <MouseIcon />
                       </IconButton>   
                     </Grid>                        
                     </Grid>            
@@ -249,14 +291,14 @@ function App() {
                   </label>
                   <Button type="submit" value="Add question" variant="outlined" sx={{marginTop:1, marginLeft:1}}>Add Question</Button>
                 </form>
+              
               </ul>              
               </Box>              
             </Grid>                        
           </Grid>                    
             
-          {currentIndex}
-          {articleCount}
-          <LinearProgress variant="determinate" value={(articleCount/currentIndex)*100} sx={{ boxShadow: 1, marginTop:3}}/>    
+          {currentIndex + 1 + "/" + jsonData.length}
+          <LinearProgress variant="determinate" value={((currentIndex + 1)/jsonData.length) * 100} sx={{ boxShadow: 1, marginTop:3}}/>  
 
           <Grid container spacing={0} sx={{marginTop:5}}>
           <Grid item xs={4}></Grid>
