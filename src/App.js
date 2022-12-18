@@ -95,22 +95,37 @@ function App() {
     const answers = jsonData[currentIndex].qas.map((q) => q.answer);
   
     const searchWords = answers.map((answer, index) => {
-      // start and end index of the answer
-      const startIndex = jsonData[currentIndex].context.indexOf(answer);
-      if (startIndex === -1) {
-        // Set start and end indices to -1 if the answer is not found in the context
+      // Find all instances of the answer in the context
+      const escapedAnswer = answer.split(' ').map((word) => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join(' ');
+      const regex = new RegExp(`\\b${escapedAnswer}\\b`, 'g');
+      const matches = [...jsonData[currentIndex].context.matchAll(regex)];
+  
+      // If no matches are found, set the start and end indices to -1
+      if (matches.length === 0) {
         jsonData[currentIndex].qas[index].answer_start = -1;
         jsonData[currentIndex].qas[index].answer_end = -1;
-      } else {
-        const endIndex = startIndex + answer.length - 1;
+        return {};
+      }
   
-        // Update start and end indices
-        jsonData[currentIndex].qas[index].answer_start = startIndex;
-        jsonData[currentIndex].qas[index].answer_end = endIndex;
+      // Find the first match that occurs at the beginning of a word and has no letters before or after it
+      const match = matches.find((match) => {
+        const prevChar = jsonData[currentIndex].context.charCodeAt(match.index - 1);
+        const nextChar = jsonData[currentIndex].context.charCodeAt(match.index + match[0].length);
+        return match.index === jsonData[currentIndex].context.substring(0, match.index).lastIndexOf(' ') + 1 && (prevChar < 65 || (prevChar > 90 && prevChar < 97) || prevChar > 122) && (nextChar < 65 || (nextChar > 90 && nextChar < 97) || nextChar > 122);
+      });
+      if (match) {
+        // Update the start and end indices of the answer
+        jsonData[currentIndex].qas[index].answer_start = match.index;
+        jsonData[currentIndex].qas[index].answer_end = match.index + match[0].length - 1;
+      } else {
+        // Set start and end indices to -1 if no matching answer is found
+        jsonData[currentIndex].qas[index].answer_start = -1;
+        jsonData[currentIndex].qas[index].answer_end = -1;
       }
     });
-  
   };
+  
+  
   // highlight the answers in the context using the indices
   const highlightAnswers = (jsonData) => {
     setIndices(jsonData);  
@@ -119,7 +134,9 @@ function App() {
       let style = {};
   
       // Check if the character is part of an answer
-      const qa = jsonData[currentIndex].qas.find(qa => qa.answer_start <= index && index <= qa.answer_end);
+      const qa = jsonData[currentIndex].qas.find(qa => qa.answer_start <= index 
+        && index <= qa.answer_end
+        );
       if (qa) {
         // Set the highlight color based on the answer's id
         style.backgroundColor = colors[qa.id % colors.length];
