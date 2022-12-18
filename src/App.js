@@ -13,7 +13,7 @@ import TextField from '@mui/material/TextField';
 function App() {
   const [jsonData, setJsonData] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [questionCount, setQuestionCount] = useState(0);
+  const [articleCount, setArticleCount] = useState(0);
   const [currentQ, setCurrentQ] = useState(0);
   const [newQuestion, setNewQuestion] = useState('');
   const [newAnswer, setNewAnswer] = useState('');
@@ -250,8 +250,8 @@ function App() {
           </Grid>                    
             
           {currentIndex}
-          {questionCount}
-          <LinearProgress variant="determinate" value={(currentIndex/questionCount)*100} sx={{ boxShadow: 1, marginTop:3}}/>    
+          {articleCount}
+          <LinearProgress variant="determinate" value={(articleCount/currentIndex)*100} sx={{ boxShadow: 1, marginTop:3}}/>    
 
           <Grid container spacing={0} sx={{marginTop:5}}>
           <Grid item xs={4}></Grid>
