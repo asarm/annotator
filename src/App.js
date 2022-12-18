@@ -21,6 +21,7 @@ function App() {
   const [newTitle, setNewTitle] = useState('');
   const [newContext, setNewContext] = useState('');
   
+  
 
 
   // create a variable that allows user to upload a JSON file and targets the object "data"
@@ -225,12 +226,17 @@ function App() {
     addData(jsonData, newTitle, newContext);
     setJsonData([...jsonData]); // update the jsonData
   }
+
+  const countWords = () => {
+    const contextWords = jsonData[currentIndex].context.split(' ');
+    return contextWords.length;
+  };
   
 
 
   return (
     <div style={{marginTop: 20, marginLeft:30, marginRight:30}}>
-      <h1>QA Annotation Tool</h1>
+      <h1 align="middle">QA Annotation Tool</h1>
       <p>Upload the data in JSON format</p>
 
       <Button variant="contained" component="label" size="small" style={{marginRight:10}}>
@@ -243,7 +249,7 @@ function App() {
           size="small"
           variant="outlined"
           onClick={() => handleAddData()}
-          style={{ marginLeft: "485px" }}
+          style={{ marginLeft: "275px" }}
         >Add Data</Button>
       ) : null}
       
@@ -253,7 +259,11 @@ function App() {
         <div>                                    
           <Grid container spacing={2}>                             
               <Grid item xs={6}>                
-                <h3>{jsonData[currentIndex].title}</h3>
+                <h2 align="middle">{jsonData[currentIndex].title}</h2>
+                <h5><Box>
+                    Word count: {countWords()}
+                    </Box>
+                </h5>
                 
                 <Box sx={{ boxShadow: 3, minHeight:200, padding:2}}>                
                   <p>{highlightAnswers(jsonData)}</p>
@@ -261,8 +271,7 @@ function App() {
               </Grid>            
             <Grid item xs={6}>
               <Box sx={{ boxShadow: 3, minHeight:400, padding:2, marginTop:7}}>                
-              
-              
+                <h3 align="middle"> Questions</h3>  
               <ul>
               {
               jsonData[currentIndex].qas.map((text, index) => (          
