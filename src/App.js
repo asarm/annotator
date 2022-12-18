@@ -91,17 +91,22 @@ function App() {
   const setIndices = (jsonData) => {
     const answers = jsonData[currentIndex].qas.map((q) => q.answer);
   
-    
     const searchWords = answers.map((answer, index) => {
       // start and end index of the answer
       const startIndex = jsonData[currentIndex].context.indexOf(answer);
-      const endIndex = startIndex + answer.length;
+      if (startIndex === -1) {
+        // Set start and end indices to -1 if the answer is not found in the context
+        jsonData[currentIndex].qas[index].answer_start = -1;
+        jsonData[currentIndex].qas[index].answer_end = -1;
+      } else {
+        const endIndex = startIndex + answer.length - 1;
   
-      // Update start and end indices
-      jsonData[currentIndex].qas[index].answer_start = startIndex;
-      jsonData[currentIndex].qas[index].answer_end = endIndex;
+        // Update start and end indices
+        jsonData[currentIndex].qas[index].answer_start = startIndex;
+        jsonData[currentIndex].qas[index].answer_end = endIndex;
+      }
     });
-
+  
   };
   // highlight the answers in the context using the indices
   const highlightAnswers = (jsonData) => {
@@ -215,7 +220,7 @@ function App() {
                   <p>
                   <Grid container spacing={0} sx={{marginTop:0}}>
                     <Grid item xs={8}>
-                      Answer: <span c>{text.answer}</span>
+                      Answer: <span c style={{ backgroundColor: colors[index] }}>{text.answer}</span>
                     </Grid>
                     <Grid item xs={2}>
                       <Button size="small" variant="outlined" onClick={() => handleAnswerEdit(text.id, 1)}
