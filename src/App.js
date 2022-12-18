@@ -20,6 +20,7 @@ function App() {
   const [newAnswer, setNewAnswer] = useState('');
   const [newTitle, setNewTitle] = useState('');
   const [newContext, setNewContext] = useState('');
+  
 
 
   // create a variable that allows user to upload a JSON file and targets the object "data"
@@ -72,7 +73,7 @@ function App() {
     setCurrentQ(id);
     let a_input;
     
-    if (signal == 1) {
+    if (signal === 1) {
       a_input = prompt('Enter the answer')
     }else {
       a_input = window.getSelection().toString()
@@ -99,7 +100,7 @@ function App() {
       const escapedAnswer = answer.split(' ').map((word) => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join(' ');
       const regex = new RegExp(`\\b${escapedAnswer}\\b`, 'g');
       const matches = [...jsonData[currentIndex].context.matchAll(regex)];
-  
+      console.log(matches)
       // If no matches are found, set the start and end indices to -1
       if (matches.length === 0) {
         jsonData[currentIndex].qas[index].answer_start = -1;
@@ -109,8 +110,17 @@ function App() {
   
       // Find the first match that occurs at the beginning of a word and has no letters before or after it
       const match = matches.find((match) => {
-        const prevChar = jsonData[currentIndex].context.charCodeAt(match.index - 1);
-        const nextChar = jsonData[currentIndex].context.charCodeAt(match.index + match[0].length);
+        var prevChar = null;
+        var nextChar = null;
+        if (match.index === 0) {
+          prevChar = null
+          nextChar = jsonData[currentIndex].context.charCodeAt(match.index + match[0].length);   
+        }
+        else {
+          prevChar = jsonData[currentIndex].context.charCodeAt(match.index - 1);
+          nextChar = jsonData[currentIndex].context.charCodeAt(match.index + match[0].length);
+        }
+        
         return match.index === jsonData[currentIndex].context.substring(0, match.index).lastIndexOf(' ') + 1 && (prevChar < 65 || (prevChar > 90 && prevChar < 97) || prevChar > 122) && (nextChar < 65 || (nextChar > 90 && nextChar < 97) || nextChar > 122);
       });
       if (match) {
@@ -182,7 +192,7 @@ function App() {
       answer: newAnswer
     };
   
-    // add the new QA to the current context
+    // add a new QA to the current context
     newJsonData[currentIndex].qas.push(newQA);
   
     setJsonData(newJsonData); // update the jsonData 
@@ -215,7 +225,7 @@ function App() {
     addData(jsonData, newTitle, newContext);
     setJsonData([...jsonData]); // update the jsonData
   }
-
+  
 
 
   return (
