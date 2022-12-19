@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useEffect } from 'react';
 import { saveAs} from 'save-as';
-import Highlighter from "react-highlight-words";
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
@@ -10,14 +9,6 @@ import Box from '@mui/material/Box';
 import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';
 import TextField from '@mui/material/TextField';
 import MouseIcon from '@mui/icons-material/Mouse';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
@@ -27,13 +18,11 @@ import SaveAsIcon from '@mui/icons-material/SaveAs';
 function App() {
   const [jsonData, setJsonData] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [articleCount, setArticleCount] = useState(0);
   const [currentQ, setCurrentQ] = useState(0);
   const [newQuestion, setNewQuestion] = useState('');
   const [newAnswer, setNewAnswer] = useState('');
   const [newTitle, setNewTitle] = useState('');
   const [newContext, setNewContext] = useState('');
-  const [open, setOpen] = useState(false);
   const [isOpen, setIsOpen] = React.useState(false)
   
 
@@ -200,6 +189,7 @@ function App() {
     }
     setJsonData(newJsonData);
   };
+  
   // Add a new QA
   const handleAddQuestion = (e) => {
     e.preventDefault(); // prevent the form from reloading the page
@@ -248,21 +238,33 @@ function App() {
     addData(jsonData, newTitle, newContext);
     setJsonData([...jsonData]); // update the jsonData
   }
-
+  
+  const handleDeleteData = (index) => {
+    if (jsonData.length === 1) {
+      // display error message if user tries to delete the last item
+      alert('CANNOT DELETE THE LAST ITEM');
+    } else {
+      const newJsonData = [...jsonData]; // temp jsonData
+      newJsonData.splice(index, 1); // delete the item at desired index
+  
+      // update the current index
+      setCurrentIndex(Math.min(currentIndex, newJsonData.length - 1)); // set current index to the new last item
+      setJsonData(newJsonData); // update the jsonData
+    }
+  }
+  // counts the number of words in the context
   const countWords = () => {
     const contextWords = jsonData[currentIndex].context.split(' ');
     return contextWords.length;
   };
   
 
-  const drawerItems = [];
+  const drawerItems = []; // stores the name of titles
+
   return (
     <div style={{marginTop: 20, marginLeft:30, marginRight:30}}>
       <h1 align="middle">QA Annotation Tool</h1>
       <p>Upload the data in JSON format</p>
-             
-     
-
       <Button variant="contained" component="label" size="small" style={{marginRight:10}}>
         Upload File
         <input hidden accept="" multiple type="file" onChange={handleFileSelect} />
@@ -277,7 +279,16 @@ function App() {
           style={{ marginLeft: "30%" }}
         >Add Data</Button>
       ) : null}
-      
+      {jsonData ? (
+        <Button
+          size="small"
+          variant="contained"
+          color="error"
+          onClick={() => handleDeleteData(currentIndex)}
+          style={{ marginLeft: "1%" }}
+        >Delete Data</Button>
+      ) : null}
+  
       <div style={{margin: 10}}></div>
       
       {jsonData &&  (                
