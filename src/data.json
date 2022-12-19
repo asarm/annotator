@@ -1,93 +1,215 @@
 {
   "data": [
     {
-    "title": "Napoleon Bonaparte",
-    "context": "Napoleon Bonaparte (1769-1821), also known as Napoleon I, was a French military leader and emperor who conquered much of Europe in the early 19th century. Born on the island of Corsica, Napoleon rapidly rose through the ranks of the military during the French Revolution (1789-1799). After seizing political power in France in a 1799 coup d’état, he crowned himself emperor in 1804. Shrewd, ambitious and a skilled military strategist, Napoleon successfully waged war against various coalitions of European nations and expanded his empire. However, after a disastrous French invasion of Russia in 1812, Napoleon abdicated the throne two years later and was exiled to the island of Elba. In 1815, he briefly returned to power in his Hundred Days campaign. After a crushing defeat at the Battle of Waterloo, he abdicated once again and was exiled to the remote island of Saint Helena, where he died at 51.",
-    "qas": [
-      {
-        "question": "Who was Napoléon?",
-        "id": 0,
-        "answer_start": 62,
-        "answer_end": 152,
-        "answer": "a French military leader and emperor who conquered much of Europe in the early 19th century"
-      },
-      {
-        "question": "When did he abdicate from the throne of France?",
-        "id": 1,
-        "answer_start": 549,
-        "answer_end": 631,
-        "answer": "after a disastrous French invasion of Russia in 1812, Napoleon abdicated the throne"
-      },
-      {
-        "question": "Where did he first exiled to?",
-        "id": 2,
-        "answer_start": 667,
-        "answer_end": 684,
-        "answer": "the island of Elba"
-      },
-      {
-        "question": "Where did he get his most embarassing defeat?",
-        "id": 3,
-        "answer_start": 779,
-        "answer_end": 803,
-        "answer": "at the Battle of Waterloo"
-      },
-      {
-        "question": "Where did he go when Napoleon abdicated for the second time?",
-        "id": 4,
-        "answer_start": 852,
-        "answer_end": 880,
-        "answer": "remote island of Saint Helena"
-      }
-    ]
-  },
-    {
-    "title": "Ozzy Osbourne",
-    "context": "Ozzy Osbourne, byname of John Michael Osbourne, (born December 3, 1948, Birmingham, England), British musician who gained a loyal following as the vocalist for the heavy metal group Black Sabbath before embarking on a successful solo career.\r\n\r\nRaised in a working-class family, Osbourne dropped out of school at age 15 and held several low-paying jobs. He also engaged in petty crime and at 17 was imprisoned for two months for burglary. After his release, he sang in a number of local rock groups, eventually forming the rock band Earth with guitarist Tony Iommi. To avoid confusion with another band of the same name, the group changed its name to Black Sabbath",
-    "qas": [
-      {
-        "id": 0,
-        "question": "When was Ozzy Osbourne born?",
-        "answer_start": 54,
-        "answer_end": 69,
-        "answer": "December 3, 1948"
-      },
-      {
-        "id": 1,
-        "question": "What is Ozzy's full name?",
-        "answer_start": 25,
-        "answer_end": 45,
-        "answer": "John Michael Osbourne"
-      },
-      {
-        "id": 2,
-        "question": "Which band did he found?",
-        "answer_start": 519,
-        "answer_end": 537,
-        "answer": "the rock band Earth"
-      }
-    ]
-  },
-    {
-      "title": "Title 3",
-      "context":"A question-answering task is a type of natural language processing task that involves automatically answering questions posed in a given language.",
+      "title": "Napoleon Bonaparte",
+      "context": "Napoleon Bonaparte (1769-1821), also known as Napoleon I, was a French military leader and emperor who conquered much of Europe in the early 19th century. Born on the island of Corsica, Napoleon rapidly rose through the ranks of the military during the French Revolution (1789-1799). After seizing political power in France in a 1799 coup d’état, he crowned himself emperor in 1804. Shrewd, ambitious and a skilled military strategist, Napoleon successfully waged war against various coalitions of European nations and expanded his empire. However, after a disastrous French invasion of Russia in 1812, Napoleon abdicated the throne two years later and was exiled to the island of Elba. In 1815, he briefly returned to power in his Hundred Days campaign. After a crushing defeat at the Battle of Waterloo, he abdicated once again and was exiled to the remote island of Saint Helena, where he died at 51.",
       "qas": [
         {
-          "question": "What is the question 1?",
-          "id": 0,                      
-          "answer_start": 0,
-          "answer_end":10,
-          "answer": "A question-answering task"                        
+          "question": "Who was Napoleon?",
+          "id": 0,
+          "answer_start": 62,
+          "answer_end": 152,
+          "answer": "a French military leader and emperor who conquered much of Europe in the early 19th century"
         },
         {
-          "question": "What is the question 2?",
+          "question": "When did he abdicate from the throne of France?",
           "id": 1,
-          "answer_start": 0,
-          "answer_end":10,
-          "answer": "A question-answering task"
-        } 
-      ]                           
+          "answer_start": 549,
+          "answer_end": 631,
+          "answer": "after a disastrous French invasion of Russia in 1812, Napoleon abdicated the throne"
+        },
+        {
+          "question": "Where did he first exiled to?",
+          "id": 2,
+          "answer_start": 667,
+          "answer_end": 684,
+          "answer": "the island of Elba"
+        },
+        {
+          "question": "Where did he get his most embarassing defeat?",
+          "id": 3,
+          "answer_start": 779,
+          "answer_end": 803,
+          "answer": "at the Battle of Waterloo"
+        },
+        {
+          "question": "Where did he go when Napoleon abdicated for the second time?",
+          "id": 4,
+          "answer_start": 852,
+          "answer_end": 880,
+          "answer": "remote island of Saint Helena"
+        }
+      ]
+    },
+    {
+      "title": "Ozzy Osbourne",
+      "context": "Ozzy Osbourne, byname of John Michael Osbourne, (born December 3, 1948, Birmingham, England), British musician who gained a loyal following as the vocalist for the heavy metal group Black Sabbath before embarking on a successful solo career.\r\n\r\nRaised in a working-class family, Osbourne dropped out of school at age 15 and held several low-paying jobs. He also engaged in petty crime and at 17 was imprisoned for two months for burglary. After his release, he sang in a number of local rock groups, eventually forming the rock band Earth with guitarist Tony Iommi. To avoid confusion with another band of the same name, the group changed its name to Black Sabbath",
+      "qas": [
+        {
+          "id": 0,
+          "question": "When was Ozzy Osbourne born?",
+          "answer_start": 54,
+          "answer_end": 69,
+          "answer": "December 3, 1948"
+        },
+        {
+          "id": 1,
+          "question": "What is Ozzy's full name?",
+          "answer_start": 25,
+          "answer_end": 45,
+          "answer": "John Michael Osbourne"
+        },
+        {
+          "id": 2,
+          "question": "Which band did he found?",
+          "answer_start": 519,
+          "answer_end": 537,
+          "answer": "the rock band Earth"
+        }
+      ]
+    },
+    {
+      "title": "Oxygen",
+      "context": "Oxygen is a chemical element with symbol O and atomic number 8. It is a member of the chalcogen group on the periodic table and is a highly reactive nonmetal and oxidizing agent that readily forms compounds (notably oxides) with most elements. By mass, oxygen is the third-most abundant element in the universe, after hydrogen and helium. At standard temperature and pressure, two atoms of the element bind to form dioxygen, a colorless and odorless diatomic gas with the formula O\r\n2. Diatomic oxygen gas constitutes 20.8% of the Earth's atmosphere. However, monitoring of atmospheric oxygen levels show a global downward trend, because of fossil-fuel burning. Oxygen is the most abundant element by mass in the Earth's crust as part of oxide compounds such as silicon dioxide, making up almost half of the crust's mass.",
+      "qas": [
+        {
+          "id": 0,
+          "question": "The atomic number of the periodic table for oxygen?",
+          "answer_start": 61,
+          "answer_end": 61,
+          "answer": "8"
+        },
+        {
+          "id": 1,
+          "question": "What is the second most abundant element?",
+          "answer_start": 331,
+          "answer_end": 336,
+          "answer": "helium"
+        },
+        {
+          "id": 2,
+          "question": "Which gas makes up 20.8% of the Earth's atmosphere?",
+          "answer_start": 486,
+          "answer_end": 500,
+          "answer": "Diatomic oxygen"
+        },
+        {
+          "id": 3,
+          "question": "How many atoms combine to form dioxygen?",
+          "answer_start": 377,
+          "answer_end": 385,
+          "answer": "two atoms"
+        },
+        {
+          "id": 4,
+          "question": "Of what group in the periodic table is oxygen a member?",
+          "answer_start": 86,
+          "answer_end": 94,
+          "answer": "chalcogen"
+        }
+      ]
+    },
+    {
+      "title": "Combustion",
+      "context": "John Dalton's original atomic hypothesis assumed that all elements were monatomic and that the atoms in compounds would normally have the simplest atomic ratios with respect to one another. For example, Dalton assumed that water's formula was HO, giving the atomic mass of oxygen as 8 times that of hydrogen, instead of the modern value of about 16. In 1805, Joseph Louis Gay-Lussac and Alexander von Humboldt showed that water is formed of two volumes of hydrogen and one volume of oxygen; and by 1811 Amedeo Avogadro had arrived at the correct interpretation of water's composition, based on what is now called Avogadro's law and the assumption of diatomic elemental molecules.",
+      "qas": [
+        {
+          "id": 0,
+          "question": "What did John Dalton think that all elements were in number present in compounds?",
+          "answer_start": 72,
+          "answer_end": 80,
+          "answer": "monatomic"
+        },
+        {
+          "id": 1,
+          "question": "What did Dalton think the atomic ratios were between atoms in compounds?",
+          "answer_start": 138,
+          "answer_end": 145,
+          "answer": "simplest"
+        },
+        {
+          "id": 2,
+          "question": "What was Dalton's erroneous formula for water?",
+          "answer_start": 243,
+          "answer_end": 244,
+          "answer": "HO"
+        },
+        {
+          "id": 3,
+          "question": "What element did Gay-Lussac and von Humboldt discover was present in twice the amount of oxygen in water?",
+          "answer_start": 299,
+          "answer_end": 306,
+          "answer": "hydrogen"
+        }
+      ]
+    },
+    {
+      "title": "Trioxygen",
+      "context": "Trioxygen (O\r\n3) is usually known as ozone and is a very reactive allotrope of oxygen that is damaging to lung tissue. Ozone is produced in the upper atmosphere when O\r\n2 combines with atomic oxygen made by the splitting of O\r\n2 by ultraviolet (UV) radiation. Since ozone absorbs strongly in the UV region of the spectrum, the ozone layer of the upper atmosphere functions as a protective radiation shield for the planet. Near the Earth's surface, it is a pollutant formed as a by-product of automobile exhaust. The metastable molecule tetraoxygen (O\r\n4) was discovered in 2001, and was assumed to exist in one of the six phases of solid oxygen. It was proven in 2006 that this phase, created by pressurizing O\r\n2 to 20 GPa, is in fact a rhombohedral O\r\n8 cluster. This cluster has the potential to be a much more powerful oxidizer than either O\r\n2 or O\r\n3 and may therefore be used in rocket fuel. A metallic phase was discovered in 1990 when solid oxygen is subjected to a pressure of above 96 GPa and it was shown in 1998 that at very low temperatures, this phase becomes superconducting.",
+      "qas": [
+        {
+          "id": 0,
+          "question": "What is the name for O3 most often used?",
+          "answer_start": 37,
+          "answer_end": 41,
+          "answer": "ozone"
+        },
+        {
+          "id": 1,
+          "question": "Of what is ozone a reactive part of oxygen?",
+          "answer_start": 66,
+          "answer_end": 74,
+          "answer": "allotrope"
+        },
+        {
+          "id": 2,
+          "question": "What does ozone's characteristic to cause damage effect?",
+          "answer_start": 106,
+          "answer_end": 116,
+          "answer": "lung tissue"
+        },
+        {
+          "id": 3,
+          "question": "What function does ozone perform for the planet?",
+          "answer_start": 378,
+          "answer_end": 404,
+          "answer": "protective radiation shield"
+        }
+      ]
+    },
+    {
+      "title": "Normans",
+      "context": "The Normans (Norman: Nourmands; French: Normands; Latin: Normanni) were the people who in the 10th and 11th centuries gave their name to Normandy, a region in France. They were descended from Norse (\"Norman\" comes from \"Norseman\") raiders and pirates from Denmark, Iceland and Norway who, under their leader Rollo, agreed to swear fealty to King Charles III of West Francia. Through generations of assimilation and mixing with the native Frankish and Roman-Gaulish populations, their descendants would gradually merge with the Carolingian-based cultures of West Francia. The distinct cultural and ethnic identity of the Normans emerged initially in the first half of the 10th century, and it continued to evolve over the succeeding centuries.",
+      "qas": [
+        {
+          "id": 0,
+          "question": "In what country is Normandy located?",
+          "answer_start": 159,
+          "answer_end": 164,
+          "answer": "France"
+        },
+        {
+          "id": 1,
+          "question": "When were the Normans in Normandy?",
+          "answer_start": 94,
+          "answer_end": 116,
+          "answer": "10th and 11th centuries"
+        },
+        {
+          "id": 2,
+          "question": "From which countries did the Norse originate?",
+          "answer_start": 256,
+          "answer_end": 282,
+          "answer": "Denmark, Iceland and Norway"
+        },
+        {
+          "id": 3,
+          "question": "Who was the Norse leader?",
+          "answer_start": -1,
+          "answer_end": -1,
+          "answer": "Rllo"
+        }
+      ]
     }
-    
   ]
 }
