@@ -25,11 +25,10 @@ function App() {
   const [newContext, setNewContext] = useState('');
   const [isOpen, setIsOpen] = React.useState(false)
   
-
+  // toggle on-off the drawer panel
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState)
 }
-
 
   // create a variable that allows user to upload a JSON file and targets the object "data"
   const handleFileSelect = (event) => {
@@ -52,13 +51,13 @@ function App() {
     saveAs(file, 'data.json');
   };
 
-
+  // sets the current index when the user clicks on previous button
   const handlePrevClick = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
     }
   };
-
+  // sets the current index when the user clicks on next button
   const handleNextClick = () => {
     if (currentIndex < jsonData.length - 1) {
       setCurrentIndex(currentIndex + 1);
@@ -88,9 +87,9 @@ function App() {
     }
 
     const newJsonData = [...jsonData];
-    const text = newJsonData[currentIndex].qas.find(text => text.id === id); // find the corresponding text by id
+    const qas = newJsonData[currentIndex].qas.find(qas => qas.id === id); // find the corresponding qas by id
  
-    text.answer = a_input; // update the answer
+    qas.answer = a_input; // update the answer
     
     setJsonData(newJsonData);
   };
@@ -103,16 +102,16 @@ function App() {
   
    
   
-  // update the indices of the answers
+  // update the indices of the answers in the context
   const setIndices = (jsonData) => {
     const answers = jsonData[currentIndex].qas.map((q) => q.answer);
   
     const searchWords = answers.map((answer, index) => {
       // Find all instances of the answer in the context
       const escapedAnswer = answer.split(' ').map((word) => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join(' ');
-      const regex = new RegExp(`\\b${escapedAnswer}\\b`, 'g');
+       const regex = new RegExp(`(\b|(|-)${escapedAnswer}(\b|)|-)`, 'g');
       const matches = [...jsonData[currentIndex].context.matchAll(regex)];
-      console.log(matches)
+      //console.log(matches)
       // If no matches are found, set the start and end indices to -1
       if (matches.length === 0) {
         jsonData[currentIndex].qas[index].answer_start = -1;
@@ -120,7 +119,7 @@ function App() {
         return {};
       }
   
-      // Find the first match that occurs at the beginning of a word and has no letters before or after it
+      // To get rid of matching with the substring of words
       const match = matches.find((match) => {
         var prevChar = null;
         var nextChar = null;
@@ -212,7 +211,7 @@ function App() {
     setNewQuestion(''); // reset form
     setNewAnswer(''); // reset form
   };
-
+  // allows user to add new data to the array
   const addData = (jsonData, newTitle, newContext) => {
     // create a new object to be added to the array
     const newData = {
@@ -233,12 +232,12 @@ function App() {
     // add new data to the array
     jsonData.push(newData);
   }
-
+  
   const handleAddData = () => {
     addData(jsonData, newTitle, newContext);
     setJsonData([...jsonData]); // update the jsonData
   }
-  
+  // allows user to delete the data at the current index
   const handleDeleteData = (index) => {
     if (jsonData.length === 1) {
       // display error message if user tries to delete the last item
