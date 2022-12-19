@@ -6,6 +6,15 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm install save-as`
+### `npm install @mui/material @emotion/react @emotion/styled`
 
-### `npm install react-highlight-words`
+Extra dependency for windows:
+### `npm install @mui/icons-material`
+
+### `npm install save-as`
+### `npm install --save react-modern-drawer`
+
+
+
+
+
